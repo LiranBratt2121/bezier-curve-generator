@@ -65,11 +65,13 @@ class BezierCurve(private val pointInterval: Float = 0.001f) {
 
     private fun drawLiner() {
         if (points.size < 2) return
-        val start = points[0]
-        val end = points[1]
+
+        val (start, end) = points
         var t = 0.0f
+        
         while (t <= 1.0f) {
             val current = start.lerp(end, t)
+
             addLinePoint(current.x, current.y)
             t += pointInterval
         }
@@ -79,14 +81,15 @@ class BezierCurve(private val pointInterval: Float = 0.001f) {
 
     private fun drawQuadratic() {
         if (points.size < 3) return
-        val start = points[0]
-        val control = points[1]
-        val end = points[2]
+        
+        val (start, control, end) = points
         var t = 0.0f
+
         while (t <= 1.0f) {
             val l0 = start.lerp(control, t)
             val l1 = control.lerp(end, t)
             val current = l0.lerp(l1, t)
+
             addLinePoint(current.x, current.y)
             t += pointInterval
         }
@@ -96,11 +99,10 @@ class BezierCurve(private val pointInterval: Float = 0.001f) {
 
     private fun drawQubic() {
         if (points.size < 4) return
-        val start = points[0]
-        val control1 = points[1]
-        val control2 = points[2]
-        val end = points[3]
+
+        val (start, control1, control2, end) = points
         var t = 0.0f
+
         while (t <= 1.0f) {
             val l0 = start.lerp(control1, t)
             val l1 = control1.lerp(control2, t)
@@ -108,6 +110,7 @@ class BezierCurve(private val pointInterval: Float = 0.001f) {
             val l3 = l0.lerp(l1, t)
             val l4 = l1.lerp(l2, t)
             val current = l3.lerp(l4, t)
+
             addLinePoint(current.x, current.y)
             t += pointInterval
         }
